@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  quote-service:
+    image: fakelsmile/quote-service:latest
+    build:
+      context: ./quote-service
+    env_file:
+      - ./.env
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_USERNAME: ${QUOTE_SERVICE_DB_USER:-admin}
+      SPRING_DATASOURCE_PASSWORD: ${QUOTE_SERVICE_DB_PASSWORD:-admin}
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:${QUOTE_SERVICE_DB_NAME:-quote-db}
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5

@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/v.1.0/create-users.yaml
+  - include:
+      file: db/changelog/v.1.0/create-quotes-and-votes.yaml

@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: fakelsmile
+      changes:
+        - createTable:
+            tableName: quotes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: content
+                  type: varchar(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: create_at
+                  type: timestamp
+              - column:
+                  name: update_at
+                  type: timestamp
+              - column:
+                  name: score
+                  type: BIGINT
+              - column:
+                  name: author_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: quotes
+            baseColumnNames: author_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: FK_quotes_users
+
+  - changeSet:
+      id: 2
+      author: fakelsmile
+      changes:
+        - createTable:
+            tableName: votes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: create_at
+                  type: timestamp
+              - column:
+                  name: update_at
+                  type: timestamp
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quote_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vote_type
+                  type: varchar(50)
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: votes
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: FK_votes_users
+        - addForeignKeyConstraint:
+            baseTableName: votes
+            baseColumnNames: quote_id
+            referencedTableName: quotes
+            referencedColumnNames: id
+            constraintName: FK_votes_quotes
